@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#080806">
+<title>USTD Mining</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070706;color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:22px;color:#ffd45b}
+header h1{font-size:32px;margin:0}
+header p{color:#aaa;margin:7px}
+.stats{display:flex;justify-content:space-around;gap:8px;padding:10px}
+.stat{background:#15140f;border:1px solid #51421a;border-radius:12px;padding:12px 8px;text-align:center;flex:1}
+.stat small{display:block;color:#aaa;margin-bottom:8px}
+.card{margin:12px;padding:22px 16px;border:1px solid #66501b;border-radius:22px;background:radial-gradient(ellipse at top,#30220a,#0b0b09 70%);text-align:center}
+.label{color:#bdb7a5}
+#balance{font-size:30px;color:#25f0a0;margin:12px 0}
+.coin{margin:24px auto;width:175px;height:175px;border:8px double #edc34c;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#76530e,#171006 70%);box-shadow:0 0 30px #d6a52b30;color:#ffdb65;font-size:55px;font-weight:bold}
+button{font-family:inherit;cursor:pointer}
+#claim{width:100%;padding:18px;border:0;border-radius:15px;background:linear-gradient(90deg,#ffdf22,#ff9800);font-size:19px;font-weight:bold;color:#171000}
+#message{color:#ffd45b;min-height:22px;font-size:14px}
+#section{margin:12px;padding:18px;border-radius:14px;background:#15140f;border:1px solid #4e411d;text-align:center}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#0d0d0c;border-top:1px solid #383323;padding:10px 2px calc(10px + env(safe-area-inset-bottom))}
+nav button{background:none;border:0;color:#c8c3b4;font-size:12px;flex:1;line-height:1.8}
+nav button.active{color:#ffd32f}
+main{padding-bottom:95px}
+</style>
+</head>
+<body>
+<header>
+<h1>🪙 USTD</h1>
+<p>MINING • REWARDS</p>
+</header>
+
+<div class="stats">
+<div class="stat"><small>LEVEL</small><b>LVL 1</b></div>
+<div class="stat"><small>STATUS</small><b style="color:#20e99a">● READY</b></div>
+</div>
+
+<main>
+<section class="card" id="mine">
+<p class="label">YOUR DEMO BALANCE</p>
+<h2 id="balance">0.0000 USTD</h2>
+<div class="coin">U</div>
+<p class="label">نقاط تجريبية داخل التطبيق</p>
+<button id="claim">CLAIM</button>
+<p id="message">اضغط CLAIM لتجربة إضافة نقطة</p>
+</section>
+<section id="section">مرحبًا بك في USTD Mining</section>
+</main>
+
+<nav>
+<button class="active" data-tab="Mine">⛏️<br>Mine</button>
+<button data-tab="Tasks">📝<br>Tasks</button>
+<button data-tab="Friends">👥<br>Friends</button>
+<button data-tab="Profile">👤<br>Profile</button>
+</nav>
+
+<script>
+const tg=window.Telegram?.WebApp;
+tg?.ready();
+tg?.expand();
+
+let points=0;
+const balance=document.getElementById('balance');
+const message=document.getElementById('message');
+const section=document.getElementById('section');
+
+document.getElementById('claim').addEventListener('click',()=>{
+points+=1;
+balance.textContent=points.toFixed(4)+' USTD';
+message.textContent='تمت إضافة نقطة تجريبية بنجاح!';
+});
+
+document.querySelectorAll('[data-tab]').forEach(button=>{
+button.addEventListener('click',()=>{
+document.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('active'));
+button.classList.add('active');
+const tab=button.dataset.tab;
+if(tab==='Mine'){
+section.textContent='مرحبًا بك في USTD Mining';
+document.getElementById('mine').style.display='block';
+}else{
+document.getElementById('mine').style.display='none';
+const content={
+Tasks:'📝 المهام — ستتم إضافة المهام لاحقًا.',
+Friends:'👥 دعوة الأصدقاء — ستتم إضافة روابط الإحالة لاحقًا.',
+Profile:'👤 الملف الشخصي — نسخة تجريبية.'
+};
+section.textContent=content[tab];
+}
+});
+});
+</script>
+</body>
+</html>
